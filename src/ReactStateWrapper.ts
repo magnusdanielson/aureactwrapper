@@ -8,7 +8,7 @@ export class ReactStateWrapper extends React.Component {
 
     constructor(props: any) {
         super(props);
-        this.state = props;
+        this.state = {...props};
         this.inneridReact = 'du' + Math.round( Math.random() * 10000000000000000);
         this.aureliaHost = props.aureliaHost;
         this.reactClass = props.reactClass;
