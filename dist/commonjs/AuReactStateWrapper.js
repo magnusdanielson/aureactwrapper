@@ -135,7 +135,7 @@ var AuReactStateWrapper = /** @class */ (function () {
         //this.log.debug('DuReactWrapperBaseClass renderReact complete');
     };
     AuReactStateWrapper = __decorate([
-        aurelia_framework_1.inlineView('<template><div id.bind="inneridAurelia" show.bind="!hidden"><slot></slot></div></template>')
+        aurelia_framework_1.inlineView('<template><span id.bind="inneridAurelia" show.bind="!hidden"><slot></slot></span></template>')
     ], AuReactStateWrapper);
     return AuReactStateWrapper;
 }());

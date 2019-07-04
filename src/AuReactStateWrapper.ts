@@ -6,7 +6,7 @@ import { ReactStateWrapper } from './ReactStateWrapper';
 import { IAuReactWrapper } from './IAuReactWrapper';
 
 // Den här filen har endast "ReactStateWrapper" som unik referens
-@inlineView('<template><div id.bind="inneridAurelia" show.bind="!hidden"><slot></slot></div></template>')
+@inlineView('<template><span id.bind="inneridAurelia" show.bind="!hidden"><slot></slot></span></template>')
 export class AuReactStateWrapper implements IAuReactWrapper
 {
   public element: HTMLElement;
