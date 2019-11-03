@@ -28,36 +28,53 @@ export class AuReactStateWrapper implements IAuReactWrapper
       let renderPropName = reactpropNames[i];
       if (typeof reactprops[renderPropName] === 'function')
         {
-          //this.log.debug('typeof reactprops[renderPropName] ' + renderPropName + ' is function');
+          this.log.debug(`React template: typeof reactprops[${renderPropName}] is function`);
+          this.log.debug(`Aurelia object: typeof this[${renderPropName}] is ${typeof this[renderPropName] }`);
         
-        // function is aurelia bound, make sure to call it
-          //this.log.debug('typeof this[renderPropName] = ' + typeof this[renderPropName] );
-        if (typeof this[renderPropName] === 'function') 
+          if (typeof this[renderPropName] === 'function') 
         {
-          a[renderPropName] = (...newValue: any[]) => 
-          {
-            //this.log.debug('bound function, go aurelia');
-            return this[renderPropName]( newValue);
-          }
+          this.log.debug('bound function, go aurelia');
+          a[renderPropName] = this[renderPropName].bind(this.parent);
         }
         else
         {
 
+          this.log.debug('function is not bound, check for default implementation on React template');
+
           let funcNames = ['defaultOnChangeEvent', 'defaultActionEvent', 'onlyAureliaBound'];
           if ( ! funcNames.includes( reactprops[renderPropName].name) )
           {
-            a[renderPropName] = (...newValue: any[]) => 
+            this.log.debug('React template has default implementation, call it.');
+            var that = this;
+            a[renderPropName] = function()
             {
-              //this.log.debug('run func from reactprops');
-              return reactprops[renderPropName](this, newValue);
-            }
+              let argLength = arguments.length;
+              reactprops[renderPropName](that, 
+                argLength >= 1 ? arguments[0] : undefined,
+                argLength >= 2 ? arguments[1] : undefined,
+                argLength >= 3 ? arguments[2] : undefined,
+                argLength >= 4 ? arguments[3] : undefined
+                );
+            };
+          }
+          else
+          {
+            this.log.debug('React template has empty implementation, do nothing.');
           }
         }
          
-       } else {
-        if (typeof this[renderPropName] !== 'undefined') {
-          //this.log.debug('adding ' + renderPropName + ' with value ' +  this[renderPropName]);
+       } else 
+       {
+        this.log.debug(`React template: typeof reactprops[${renderPropName}] is NOT function`);
+        
+        if (typeof this[renderPropName] !== 'undefined') 
+        {
+          this.log.debug('Aurelia object property ' + renderPropName + ' has value ' +  this[renderPropName]);
           a[renderPropName] = this[renderPropName];
+        }
+        else
+        {
+          this.log.debug('Aurelia object property ' + renderPropName + ' has NO value ' );
         }
       }
       }
@@ -89,17 +106,16 @@ export class AuReactStateWrapper implements IAuReactWrapper
 
   public unbind() 
   {
-    //this.log.debug('DuReactWrapperBaseClass unbind ')
+    this.log.debug('DuReactWrapperBaseClass unbind ')
     ReactDom.unmountComponentAtNode(this.element);
   
   }
 
   propertyChanged(name, newValue) //, oldValue)
   {
-    //this.log.debug('propertyChanged');
-    //this.log.debug(name);
-    //this.log.debug(newValue);
-    //console.log(this);
+    // this.log.debug('propertyChanged');
+    // this.log.debug(name);
+    // this.log.debug(newValue);
     let obj = {};
     obj[name] = newValue;
 
@@ -131,19 +147,19 @@ export class AuReactStateWrapper implements IAuReactWrapper
       auelement.appendChild(oldParent.childNodes[0]);
     }
   }
-  reactComponentWillUnmount()
-  {
-    //this.log.debug('DuReactWrapperBaseClass componentWillUnmount');
-  }
+  // reactComponentWillUnmount()
+  // {
+  //   this.log.debug('DuReactWrapperBaseClass componentWillUnmount');
+  // }
 
-  reactComponentDidMount()
-  {
-    //this.log.debug('DuReactWrapperBaseClass reactComponentDidMount');
-  }
+  // reactComponentDidMount()
+  // {
+  //   this.log.debug('DuReactWrapperBaseClass reactComponentDidMount');
+  // }
   renderReact(reactClass: any, a: any) 
   {
 
-    //this.log.debug('DuReactWrapperBaseClass renderReact');
+    this.log.debug('DuReactWrapperBaseClass renderReact');
 
     ReactDom.unmountComponentAtNode(this.element);
 
@@ -174,6 +190,6 @@ export class AuReactStateWrapper implements IAuReactWrapper
     );
     this.reactComponent = reactComponent;
     
-    //this.log.debug('DuReactWrapperBaseClass renderReact complete');
+    this.log.debug('DuReactWrapperBaseClass renderReact complete');
   }
 }

@@ -16,7 +16,5 @@ export declare class AuReactStateWrapper implements IAuReactWrapper {
     unbind(): void;
     propertyChanged(name: any, newValue: any): void;
     moveBack(): void;
-    reactComponentWillUnmount(): void;
-    reactComponentDidMount(): void;
     renderReact(reactClass: any, a: any): void;
 }

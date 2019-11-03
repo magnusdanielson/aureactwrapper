@@ -19,47 +19,45 @@ var AuReactStateWrapper = /** @class */ (function () {
         this.inneridAurelia = 'du' + Math.round(Math.random() * 10000000000000000);
     }
     AuReactStateWrapper.prototype.createState = function (reactprops) {
-        var _this = this;
         var reactpropNames = Object.getOwnPropertyNames(reactprops);
         var a = {};
         var _loop_1 = function (i) {
             var renderPropName = reactpropNames[i];
             if (typeof reactprops[renderPropName] === 'function') {
-                //this.log.debug('typeof reactprops[renderPropName] ' + renderPropName + ' is function');
-                // function is aurelia bound, make sure to call it
-                //this.log.debug('typeof this[renderPropName] = ' + typeof this[renderPropName] );
+                this_1.log.debug("React template: typeof reactprops[" + renderPropName + "] is function");
+                this_1.log.debug("Aurelia object: typeof this[" + renderPropName + "] is " + typeof this_1[renderPropName]);
                 if (typeof this_1[renderPropName] === 'function') {
-                    a[renderPropName] = function () {
-                        var newValue = [];
-                        for (var _i = 0; _i < arguments.length; _i++) {
-                            newValue[_i] = arguments[_i];
-                        }
-                        //this.log.debug('bound function, go aurelia');
-                        return _this[renderPropName](newValue);
-                    };
+                    this_1.log.debug('bound function, go aurelia');
+                    a[renderPropName] = this_1[renderPropName].bind(this_1.parent);
                 }
                 else {
+                    this_1.log.debug('function is not bound, check for default implementation on React template');
                     var funcNames = ['defaultOnChangeEvent', 'defaultActionEvent', 'onlyAureliaBound'];
                     if (!funcNames.includes(reactprops[renderPropName].name)) {
+                        this_1.log.debug('React template has default implementation, call it.');
+                        that = this_1;
                         a[renderPropName] = function () {
-                            var newValue = [];
-                            for (var _i = 0; _i < arguments.length; _i++) {
-                                newValue[_i] = arguments[_i];
-                            }
-                            //this.log.debug('run func from reactprops');
-                            return reactprops[renderPropName](_this, newValue);
+                            var argLength = arguments.length;
+                            reactprops[renderPropName](that, argLength >= 1 ? arguments[0] : undefined, argLength >= 2 ? arguments[1] : undefined, argLength >= 3 ? arguments[2] : undefined, argLength >= 4 ? arguments[3] : undefined);
                         };
+                    }
+                    else {
+                        this_1.log.debug('React template has empty implementation, do nothing.');
                     }
                 }
             }
             else {
+                this_1.log.debug("React template: typeof reactprops[" + renderPropName + "] is NOT function");
                 if (typeof this_1[renderPropName] !== 'undefined') {
-                    //this.log.debug('adding ' + renderPropName + ' with value ' +  this[renderPropName]);
+                    this_1.log.debug('Aurelia object property ' + renderPropName + ' has value ' + this_1[renderPropName]);
                     a[renderPropName] = this_1[renderPropName];
+                }
+                else {
+                    this_1.log.debug('Aurelia object property ' + renderPropName + ' has NO value ');
                 }
             }
         };
-        var this_1 = this;
+        var this_1 = this, that;
         for (var i = 0; i < reactpropNames.length; i++) {
             _loop_1(i);
         }
@@ -75,14 +73,13 @@ var AuReactStateWrapper = /** @class */ (function () {
         }
     };
     AuReactStateWrapper.prototype.unbind = function () {
-        //this.log.debug('DuReactWrapperBaseClass unbind ')
+        this.log.debug('DuReactWrapperBaseClass unbind ');
         ReactDom.unmountComponentAtNode(this.element);
     };
     AuReactStateWrapper.prototype.propertyChanged = function (name, newValue) {
-        //this.log.debug('propertyChanged');
-        //this.log.debug(name);
-        //this.log.debug(newValue);
-        //console.log(this);
+        // this.log.debug('propertyChanged');
+        // this.log.debug(name);
+        // this.log.debug(newValue);
         var obj = {};
         obj[name] = newValue;
         if (name == this.hiddenName) {
@@ -104,14 +101,16 @@ var AuReactStateWrapper = /** @class */ (function () {
             auelement.appendChild(oldParent.childNodes[0]);
         }
     };
-    AuReactStateWrapper.prototype.reactComponentWillUnmount = function () {
-        //this.log.debug('DuReactWrapperBaseClass componentWillUnmount');
-    };
-    AuReactStateWrapper.prototype.reactComponentDidMount = function () {
-        //this.log.debug('DuReactWrapperBaseClass reactComponentDidMount');
-    };
+    // reactComponentWillUnmount()
+    // {
+    //   this.log.debug('DuReactWrapperBaseClass componentWillUnmount');
+    // }
+    // reactComponentDidMount()
+    // {
+    //   this.log.debug('DuReactWrapperBaseClass reactComponentDidMount');
+    // }
     AuReactStateWrapper.prototype.renderReact = function (reactClass, a) {
-        //this.log.debug('DuReactWrapperBaseClass renderReact');
+        this.log.debug('DuReactWrapperBaseClass renderReact');
         ReactDom.unmountComponentAtNode(this.element);
         this.container = this.element.querySelector('.au-react-root');
         if (this.container != null) {
@@ -132,7 +131,7 @@ var AuReactStateWrapper = /** @class */ (function () {
         // }
         );
         this.reactComponent = reactComponent;
-        //this.log.debug('DuReactWrapperBaseClass renderReact complete');
+        this.log.debug('DuReactWrapperBaseClass renderReact complete');
     };
     AuReactStateWrapper = __decorate([
         aurelia_framework_1.inlineView('<template><span id.bind="inneridAurelia" show.bind="!hidden"><slot></slot></span></template>')
