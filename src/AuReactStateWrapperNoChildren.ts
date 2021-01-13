@@ -4,11 +4,14 @@ import { AuReactStateWrapper } from './AuReactStateWrapper';
 import { ReactStateWrapperNoChildren } from './ReactStateWrapperNoChildren';
 
 // Den här filen har endast "ReactStateWrapper" som unik referens
+/*
+* @deprecated Use AuReactWrapperNoChildren instead
+*/
 export class AuReactStateWrapperNoChildren extends AuReactStateWrapper
 {
   renderReact(reactClass: any, a: any) 
   {
-    ReactDom.unmountComponentAtNode(this.element);
+    //ReactDom.unmountComponentAtNode(this.element);
 
     
     this.container = this.element.querySelector('.au-react-root');

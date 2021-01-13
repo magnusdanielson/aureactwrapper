@@ -6,6 +6,9 @@ import { ReactStateWrapper } from './ReactStateWrapper';
 import { IAuReactWrapper } from './IAuReactWrapper';
 
 // Den här filen har endast "ReactStateWrapper" som unik referens
+/*
+* @deprecated Use AuReactWrapper instead
+*/
 @inlineView('<template><span id.bind="inneridAurelia" show.bind="!hidden"><slot></slot></span></template>')
 export class AuReactStateWrapper implements IAuReactWrapper
 {
@@ -28,23 +31,23 @@ export class AuReactStateWrapper implements IAuReactWrapper
       let renderPropName = reactpropNames[i];
       if (typeof reactprops[renderPropName] === 'function')
         {
-          this.log.debug(`React template: typeof reactprops[${renderPropName}] is function`);
-          this.log.debug(`Aurelia object: typeof this[${renderPropName}] is ${typeof this[renderPropName] }`);
+          //this.log.debug(`React template: typeof reactprops[${renderPropName}] is function`);
+          //this.log.debug(`Aurelia object: typeof this[${renderPropName}] is ${typeof this[renderPropName] }`);
         
           if (typeof this[renderPropName] === 'function') 
         {
-          this.log.debug('bound function, go aurelia');
+          //this.log.debug('bound function, go aurelia');
           a[renderPropName] = this[renderPropName].bind(this.parent);
         }
         else
         {
 
-          this.log.debug('function is not bound, check for default implementation on React template');
+          //this.log.debug('function is not bound, check for default implementation on React template');
 
           let funcNames = ['defaultOnChangeEvent', 'defaultActionEvent', 'onlyAureliaBound'];
           if ( ! funcNames.includes( reactprops[renderPropName].name) )
           {
-            this.log.debug('React template has default implementation, call it.');
+            //this.log.debug('React template has default implementation, call it.');
             var that = this;
             a[renderPropName] = function()
             {
@@ -57,10 +60,10 @@ export class AuReactStateWrapper implements IAuReactWrapper
                 );
             };
           }
-          else
-          {
-            this.log.debug('React template has empty implementation, do nothing.');
-          }
+          // else
+          // {
+          //   this.log.debug('React template has empty implementation, do nothing.');
+          // }
         }
          
        } else 
@@ -69,13 +72,13 @@ export class AuReactStateWrapper implements IAuReactWrapper
         
         if (typeof this[renderPropName] !== 'undefined') 
         {
-          this.log.debug('Aurelia object property ' + renderPropName + ' has value ' +  this[renderPropName]);
+          // this.log.debug('Aurelia object property ' + renderPropName + ' has value ' +  this[renderPropName]);
           a[renderPropName] = this[renderPropName];
         }
-        else
-        {
-          this.log.debug('Aurelia object property ' + renderPropName + ' has NO value ' );
-        }
+        // else
+        // {
+        //   this.log.debug('Aurelia object property ' + renderPropName + ' has NO value ' );
+        // }
       }
       }
       return a;
@@ -161,7 +164,7 @@ export class AuReactStateWrapper implements IAuReactWrapper
 
     this.log.debug('DuReactWrapperBaseClass renderReact');
 
-    ReactDom.unmountComponentAtNode(this.element);
+    //ReactDom.unmountComponentAtNode(this.element);
 
     
     this.container = this.element.querySelector('.au-react-root');

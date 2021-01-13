@@ -1,7 +1,7 @@
 {
   "name": "@dunite/au-react-wrapper",
-  "version": "2.0.0",
-  "description": "React wrapper for Aurelia",
+  "version": "2.1.0",
+  "description": "React wrappers for Aurelia",
   "keywords": [
     "react",
     "wrapper",
@@ -73,9 +73,9 @@
     "type": "git",
     "url": "git+https://github.com/magnusdanielson/aureactwrapper.git"
   },
-  "author": "Magnus Danielson <magnus@dunite.se>",
+  "author": "Magnus Danielson <magnusdanielson@hotmail.com>",
   "license": "MIT",
-  "homepage": "https://au-office-ui.azurewebsites.net",
+  "homepage": "https://magnusdanielson.github.io/au-fluent-ui/",
   "bugs": {
     "url": "https://github.com/magnusdanielson/aureactwrapper/issues"
   },
@@ -89,15 +89,19 @@
     }
   },
   "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "peerDependencies": {
     "aurelia-framework": "1.3.1",
-    "react": "16.7.0",
-    "react-dom": "16.7.0"
+    "react": ">=16.8.0 <17.0.0",
+    "react-dom": ">=16.8.0 <17.0.0"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.20",
-    "@types/react": "16.4.14",
-    "@types/react-dom": "16.0.5",
-    "aurelia-testing": "^1.0.0-beta.4.0.0",
+    "@types/react": "16.8.25",
+    "@types/react-dom": "16.8.4",
+    "aurelia-testing": "^1.0.0",
     "concurrently": "^3.5.0",
     "cross-env": "^5.1.1",
     "gulp": "^3.9.1",
@@ -109,6 +113,6 @@
     "semantic-release": "^8.2.0",
     "ts-jest": "^21.2.1",
     "tslint": "^5.8.0",
-    "typescript": "^2.6.1"
+    "typescript": "^3.8.2"
   }
 }
