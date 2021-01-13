@@ -1,6 +1,7 @@
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.camelToKebab = void 0;
     function camelToKebab(str) {
         // Matches all places where a two upper case chars followed by a lower case char are and split them with an hyphen
         return str

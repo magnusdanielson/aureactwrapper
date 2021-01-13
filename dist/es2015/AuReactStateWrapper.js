@@ -9,6 +9,9 @@ import * as ReactDom from 'react-dom';
 import { inlineView, LogManager } from 'aurelia-framework';
 import { ReactStateWrapper } from './ReactStateWrapper';
 // Den här filen har endast "ReactStateWrapper" som unik referens
+/*
+* @deprecated Use AuReactWrapper instead
+*/
 var AuReactStateWrapper = /** @class */ (function () {
     function AuReactStateWrapper(element) {
         this.element = element;
@@ -22,37 +25,39 @@ var AuReactStateWrapper = /** @class */ (function () {
         var _loop_1 = function (i) {
             var renderPropName = reactpropNames[i];
             if (typeof reactprops[renderPropName] === 'function') {
-                this_1.log.debug("React template: typeof reactprops[" + renderPropName + "] is function");
-                this_1.log.debug("Aurelia object: typeof this[" + renderPropName + "] is " + typeof this_1[renderPropName]);
+                //this.log.debug(`React template: typeof reactprops[${renderPropName}] is function`);
+                //this.log.debug(`Aurelia object: typeof this[${renderPropName}] is ${typeof this[renderPropName] }`);
                 if (typeof this_1[renderPropName] === 'function') {
-                    this_1.log.debug('bound function, go aurelia');
+                    //this.log.debug('bound function, go aurelia');
                     a[renderPropName] = this_1[renderPropName].bind(this_1.parent);
                 }
                 else {
-                    this_1.log.debug('function is not bound, check for default implementation on React template');
+                    //this.log.debug('function is not bound, check for default implementation on React template');
                     var funcNames = ['defaultOnChangeEvent', 'defaultActionEvent', 'onlyAureliaBound'];
                     if (!funcNames.includes(reactprops[renderPropName].name)) {
-                        this_1.log.debug('React template has default implementation, call it.');
+                        //this.log.debug('React template has default implementation, call it.');
                         that = this_1;
                         a[renderPropName] = function () {
                             var argLength = arguments.length;
                             reactprops[renderPropName](that, argLength >= 1 ? arguments[0] : undefined, argLength >= 2 ? arguments[1] : undefined, argLength >= 3 ? arguments[2] : undefined, argLength >= 4 ? arguments[3] : undefined);
                         };
                     }
-                    else {
-                        this_1.log.debug('React template has empty implementation, do nothing.');
-                    }
+                    // else
+                    // {
+                    //   this.log.debug('React template has empty implementation, do nothing.');
+                    // }
                 }
             }
             else {
                 this_1.log.debug("React template: typeof reactprops[" + renderPropName + "] is NOT function");
                 if (typeof this_1[renderPropName] !== 'undefined') {
-                    this_1.log.debug('Aurelia object property ' + renderPropName + ' has value ' + this_1[renderPropName]);
+                    // this.log.debug('Aurelia object property ' + renderPropName + ' has value ' +  this[renderPropName]);
                     a[renderPropName] = this_1[renderPropName];
                 }
-                else {
-                    this_1.log.debug('Aurelia object property ' + renderPropName + ' has NO value ');
-                }
+                // else
+                // {
+                //   this.log.debug('Aurelia object property ' + renderPropName + ' has NO value ' );
+                // }
             }
         };
         var this_1 = this, that;
@@ -109,7 +114,7 @@ var AuReactStateWrapper = /** @class */ (function () {
     // }
     AuReactStateWrapper.prototype.renderReact = function (reactClass, a) {
         this.log.debug('DuReactWrapperBaseClass renderReact');
-        ReactDom.unmountComponentAtNode(this.element);
+        //ReactDom.unmountComponentAtNode(this.element);
         this.container = this.element.querySelector('.au-react-root');
         if (this.container != null) {
             this.container.remove();

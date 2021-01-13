@@ -7,5 +7,5 @@ export declare class ReactStateWrapper extends React.Component {
     constructor(props: any);
     componentWillUnmount(): void;
     componentDidMount(): void;
-    render(): React.ComponentElement<any, React.Component<any, any, any>> | null;
+    render(): React.CElement<any, React.Component<any, any, any>> | null;
 }

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.addPropertiesNoState = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var camelToKebab_1 = require("./camelToKebab");
 function addPropertiesNoState(aureliaClass, reactprops) {

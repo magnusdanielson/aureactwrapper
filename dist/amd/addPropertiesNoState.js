@@ -1,6 +1,7 @@
 define(["require", "exports", "aurelia-framework", "./camelToKebab"], function (require, exports, aurelia_framework_1, camelToKebab_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.addPropertiesNoState = void 0;
     function addPropertiesNoState(aureliaClass, reactprops) {
         var reactpropNames = Object.getOwnPropertyNames(reactprops);
         for (var i = 0; i < reactpropNames.length; i++) {
